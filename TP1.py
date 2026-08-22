@@ -4,12 +4,7 @@ class GF:
         self.m = int(m)
         self.px = int(px)
 
-    # # Función asociada (método) que imprime un saludo
-    # def generar_polinomio(self):
-    #     coef =bin(self.px)
-    #     return f"El polinomio es {coef[2:]} "
-
-    # Otra función asociada que verifica si es mayor de edad
+  
     def mostrar_primitivo(self):
         entero_primitivo = (2 ** self.m) + self.px
         #return f"Los coeficientes del polinomio primitivo es {bin(entero_primitivo)[2:]}"
@@ -40,11 +35,45 @@ class GF:
 
         # 3. Unimos todo con el símbolo " + "
         return " + ".join(terminos)
+
+# ---------------------------------------------------------
+    # valido que el elemento  pertenezca al grupo
+    def validar_elemento(self, valor):
+        limite = 2 ** self.m
+        if valor < 0 or valor >= limite:
+            # Si el valor se pasa, frena el programa y tira un error claro
+            raise ValueError(f"Error: El elemento {valor} está fuera del campo GF(2^{self.m}). Debe estar entre 0 y {limite - 1}.")
+
+
+
+    def suma(self,a,b):
+        #valido
+        self.validar_elemento(a)
+        self.validar_elemento(b)
+
+        #sumo
+        suma = a^b
+
+        #genero polinomios
+        polinomio_a = self.a_polinomio(a)
+        polinomio_b = self.a_polinomio(b)
+        polinomio_resultado = self.a_polinomio(suma)
+
+        #printeo
+        print(f"Suma en GF(2^{self.m}) | ({polinomio_a}) + ({polinomio_b}) = {polinomio_resultado}")
+
+        return suma
+
     
-# Crear un objeto (instancia) de la clase
-p1 = GF(3, 3)
 
-# Usar las funciones asociadas
-#print(p1.generar_polinomio())            # Imprime el saludo
-print(p1.mostrar_primitivo())  # Imprime True
 
+
+
+
+#///////////test//////////////
+# INstancia de la clase
+# /////////// TEST //////////////
+p1 = GF(4, 3) 
+
+# Con solo llamar a la función, ya te imprime el texto en pantalla
+p1.suma(17, 5)
