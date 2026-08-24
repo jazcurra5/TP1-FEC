@@ -15,12 +15,12 @@ class GF:
         if valor == 0:
             return "0"
 
-        # 1. Pasamos el número a texto (e
+        # pasamos el número a texto
         bits = bin(valor)[2:] 
         largo = len(bits)
         terminos = []
 
-        # 2. Recorremos cada '0' o '1' de izquierda a derecha
+        # recorremos cada bit de izquierda a derecha
         for i, bit in enumerate(bits):
             if bit == '1':
                 # La potencia de 'x' es el largo total menos 1, menos la posición actual
@@ -33,7 +33,7 @@ class GF:
                 else:
                     terminos.append(f"x^{potencia}")
 
-        # 3. Unimos todo con el símbolo " + "
+        # unimos
         return " + ".join(terminos)
 
 # ---------------------------------------------------------
@@ -119,16 +119,35 @@ class GF:
                     return i
 
     def division(self,a,b):
-        a_temp = a
-        b_temp = b
-
+        
         if b==0:
-            print (f"Error, el polnomio divisor es igual a cero")
+            print (f"Error, el divisor es igual a cero")
             return None
 
         aux = self.inverso(b,False)
         resultado = self.producto(a,aux,False)
-        print (f"La division de polnimios es: {self.a_polinomio(resultado)}")
+        print (f"La division de elementos es: {self.a_polinomio(resultado)}")
+        return resultado
+
+    def potencia(self,a,n):
+
+        resultado = a
+
+        if n < 0:
+            print (f"No se puede realizar potencias negativas")
+            return None
+        
+        if n == 0:
+            print (f"La potencia del elemento es igual a 1")
+            return 1
+
+        for _ in range(1,n):
+            resultado = self.producto(resultado,a,False)
+
+        print (f"La {n} potencia del elemento [{self.a_polinomio(a)}] es: [{self.a_polinomio(resultado)}]")
+        return resultado
+
+        
 
 
 
@@ -171,3 +190,4 @@ p1.suma(17, 5)
 p1.producto(15, 2, True)
 p1.inverso(5, True)
 p1.division(17, 0)
+p1.potencia(17, 9)
