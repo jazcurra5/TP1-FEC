@@ -95,6 +95,33 @@ class GF:
         
         return resultado
 
+    def inverso(self,a):
+        self.validar_elemento(a)
+
+        #creo registros temporales
+        resultado = 0
+        a_temp = a
+        #b_temp = a
+
+        if(a_temp == 0):
+            print(f"No tiene inverso")
+
+        else:
+            for i in range((2 ** self.m)+1):
+                resultado = self.producto(a,i)
+                if resultado == 1:
+                    return i
+                
+
+
+            
+
+
+
+
+
+        
+
 
 
 
@@ -114,3 +141,4 @@ p1 = GF(5, 3)
 # Con solo llamar a la función, ya te imprime el texto en pantalla
 p1.suma(17, 5)
 p1.producto(15, 2)
+print(p1.inverso(5))
