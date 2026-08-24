@@ -287,8 +287,7 @@ class GFPoly:
 
         if l_divisor > l_dividendo:
 
-            print (f"No se puede dividir, el polinimio divisor es de mayor orden que el dividendo")
-            return None
+            return GFPoly(self.campo, [0]), self #correcion de error
 
         #//////////////////////////////////////////////////////
 
