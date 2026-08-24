@@ -15,7 +15,7 @@ class GF:
         if valor == 0:
             return "0"
 
-        # 1. Pasamos el número a texto (ej: 7 se convierte en "111")
+        # 1. Pasamos el número a texto (e
         bits = bin(valor)[2:] 
         largo = len(bits)
         terminos = []
@@ -64,16 +64,53 @@ class GF:
 
         return suma
 
+    def producto(self,a,b):
+        self.validar_elemento(a)
+        self.validar_elemento(b)
+
+        polinomio_primitivo = (2 ** self.m) + self.px
+
+        #creo registros temporales
+        resultado = 0
+        a_temp = a
+        b_temp = b
+
+        while a_temp > 0:
+
+            if a_temp & 1:
+                resultado = resultado ^ b_temp
+
+            a_temp >>= 1
+            b_temp <<= 1
+
+            if b_temp & (1 << self.m):#formo filtro de m bits con un 1 en msb
+                b_temp = b_temp ^ polinomio_primitivo
+
+        #printeos
+        polinomio_a = self.a_polinomio(a)
+        polinomio_b = self.a_polinomio(b)
+        polinomio_res = self.a_polinomio(resultado)
+        
+        print(f"Producto en GF(2^{self.m}) | ({polinomio_a}) * ({polinomio_b}) = {polinomio_res}")
+        
+        return resultado
+
+
+
+
+
+    
+
     
 
 
 
 
 
-#///////////test//////////////
-# INstancia de la clase
-# /////////// TEST //////////////
-p1 = GF(4, 3) 
+
+# /////////// TESTs //////////////
+p1 = GF(5, 3) 
 
 # Con solo llamar a la función, ya te imprime el texto en pantalla
 p1.suma(17, 5)
+p1.producto(15, 2)
