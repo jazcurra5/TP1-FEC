@@ -117,6 +117,24 @@ class GF:
                         print(f"El inverso de ({pol_a}) es ({pol_inv}) | en decimal: {i}")
                         
                     return i
+
+    def division(self,a,b):
+        a_temp = a
+        b_temp = b
+
+        if b==0:
+            print (f"Error, el polnomio divisor es igual a cero")
+            return None
+
+        aux = self.inverso(b,False)
+        resultado = self.producto(a,aux,False)
+        print (f"La division de polnimios es: {self.a_polinomio(resultado)}")
+
+
+
+         
+
+    
                 
                     
                  
@@ -139,7 +157,7 @@ class GF:
     
 
     
-## nota ver lo de corregir que printee solo el ultimo!
+
 
 
 
@@ -148,7 +166,8 @@ class GF:
 # /////////// TESTs //////////////
 p1 = GF(5, 3) 
 
-# Con solo llamar a la función, ya te imprime el texto en pantalla
+
 p1.suma(17, 5)
 p1.producto(15, 2, True)
 p1.inverso(5, True)
+p1.division(17, 0)
