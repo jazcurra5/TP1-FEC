@@ -64,7 +64,7 @@ class GF:
 
         return suma
 
-    def producto(self,a,b):
+    def producto(self,a,b,c):
         self.validar_elemento(a)
         self.validar_elemento(b)
 
@@ -86,16 +86,17 @@ class GF:
             if b_temp & (1 << self.m):#formo filtro de m bits con un 1 en msb
                 b_temp = b_temp ^ polinomio_primitivo
 
-        #printeos
-        polinomio_a = self.a_polinomio(a)
-        polinomio_b = self.a_polinomio(b)
-        polinomio_res = self.a_polinomio(resultado)
+        if c == True:
+                #printeos condicional
+            polinomio_a = self.a_polinomio(a)
+            polinomio_b = self.a_polinomio(b)
+            polinomio_res = self.a_polinomio(resultado)
         
-        print(f"Producto en GF(2^{self.m}) | ({polinomio_a}) * ({polinomio_b}) = {polinomio_res}")
-        
+            print(f"Producto en GF(2^{self.m}) | ({polinomio_a}) * ({polinomio_b}) = {polinomio_res}") 
+
         return resultado
 
-    def inverso(self,a):
+    def inverso(self,a,c):
         self.validar_elemento(a)
 
         #creo registros temporales
@@ -107,10 +108,19 @@ class GF:
             print(f"No tiene inverso")
 
         else:
-            for i in range((2 ** self.m)+1):
-                resultado = self.producto(a,i)
+            for i in range(2 ** self.m):
+                resultado = self.producto(a,i,False)
                 if resultado == 1:
+                    if c == True:
+                        pol_a = self.a_polinomio(a)
+                        pol_inv = self.a_polinomio(i)
+                        print(f"El inverso de ({pol_a}) es ({pol_inv}) | en decimal: {i}")
+                        
                     return i
+                
+                    
+                 
+                
                 
 
 
@@ -129,7 +139,7 @@ class GF:
     
 
     
-
+## nota ver lo de corregir que printee solo el ultimo!
 
 
 
@@ -140,5 +150,5 @@ p1 = GF(5, 3)
 
 # Con solo llamar a la función, ya te imprime el texto en pantalla
 p1.suma(17, 5)
-p1.producto(15, 2)
-print(p1.inverso(5))
+p1.producto(15, 2, True)
+p1.inverso(5, True)
