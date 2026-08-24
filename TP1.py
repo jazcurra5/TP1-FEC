@@ -1,5 +1,5 @@
 class GF:
-    # Constructor con atributos
+    
     def __init__(self, m, px):
         self.m = int(m)
         self.px = int(px)
@@ -218,9 +218,9 @@ class GFPoly:
         for i in range(largo_p1):
             for j in range(largo_p2):
                 
-                mult = self.campo.producto(self.coef[i], a.coef[j], False)
+                aux = self.campo.producto(self.coef[i], a.coef[j], False)
     
-                resultado[i + j] = resultado[i + j] ^ mult
+                resultado[i + j] = resultado[i + j] ^ aux
                 
         # devuelvo polinomio limpio
         return GFPoly(self.campo, resultado)
@@ -266,93 +266,89 @@ class GFPoly:
                 poli = poli * base
 
         return poli
-    
 
-
-
-
-
-
-
-         
-
-    
-                
-                    
-                 
-                
-                
-
-
-            
-
-
-
-
+    def dividir(self,a):
 
         
 
+        dividendo = list(self.coef)
+        divisor = list(a.coef)
+        l_dividendo = len(self.coef)
+        l_divisor = len(a.coef)
+
+        # list -> copia o crea la lista completa
+        # .append ->  agrega un dato al final
+
+        #casos especiales
+        if l_divisor == 1 and a.coef[0] == 0: 
+        
+                    print (f"No se puede dividir por cero")
+                    return None
+
+        if l_divisor > l_dividendo:
+
+            print (f"No se puede dividir, el polinimio divisor es de mayor orden que el dividendo")
+            return None
+
+        #//////////////////////////////////////////////////////
+
+        inv_1= self.campo.inverso(divisor[0], False)
+
+        l_cociente = l_dividendo - l_divisor + 1
+        cociente = [0]*l_cociente
 
 
+        for i in range(l_cociente):
 
+            coef_actual = dividendo[i]
 
-    
+            if coef_actual != 0:
 
-    
+                factor = self.campo.producto(coef_actual, inv_1, False)
+                cociente[i] = factor
 
+                for j in range(l_divisor):
 
+                    aux1 = self.campo.producto(factor, divisor[j], False)
+                    dividendo[i + j] = dividendo[i + j] ^ aux1
 
+        if l_divisor > 1:
 
+            resto = dividendo[-(l_divisor - 1):]
 
+        else:
 
-# /////////// TESTs //////////////
-p1 = GF(5, 3) 
+            resto = [0]
 
+        return GFPoly(self.campo, cociente), GFPoly(self.campo, resto)
+        
 
-# p1.suma(17, 5)
-# p1.producto(15, 2, True)
-# p1.inverso(5, True)
-# p1.division(17, 0)
-# p1.potencia(17, 9)
-# polinomio_prueba = GFPoly(p1, [0, 0, 15, 2])
-# print(polinomio_prueba)
+#///////////////////////test///////////////////////////
 
+print("\n--- TEST POLINOMIOS ---")
 
-# ==========================================
-# ZONA DE PRUEBAS - CLASE GFPoly
-# ==========================================
-print("\n--- INICIANDO PRUEBAS DE POLINOMIOS ---")
+# instancio el campo GF(2^3) con px=3
+campo = GF(3, 3)
 
-# 1. Creamos el campo de Galois GF(2^3) con px=3 (polinomio primitivo x^3 + x + 1)
-campo_prueba = GF(3, 3)
+# polinomios de prueba
+pol1 = GFPoly(campo, [2, 3, 1]) # 2X^2 + 3X + 1
+pol2 = GFPoly(campo, [5, 4])    # 5X + 4
 
-# 2. Creamos dos polinomios de prueba
-# pol1 = 2x^2 + 3x + 1  |  pol2 = 5x + 4
-pol1 = GFPoly(campo_prueba, [2, 3, 1])
-pol2 = GFPoly(campo_prueba, [5, 4])
+print(f"P1: {pol1}")
+print(f"P2: {pol2}\n")
 
-print(f"Polinomio 1: {pol1}")
-print(f"Polinomio 2: {pol2}")
+# operaciones basicas
+print(f"Suma (P1 + P2): {pol1 + pol2}")
+print(f"Producto (P1 * P2): {pol1 * pol2}")
+print(f"Escalado (P1 * 3): {pol1.escalar(3)}")
+print(f"Evaluar P1 en x=2: {pol1.evaluar(2)}")
 
-# 3. Probamos la suma (+)
-suma_poly = pol1 + pol2
-print(f"\n[+] Suma (pol1 + pol2): {suma_poly}")
+# metodos estaticos y division
+raices = [2, 3]
+pol_const = GFPoly.construccion(campo, raices)
+print(f"Armado desde raices {raices}: {pol_const}")
 
-# 4. Probamos la multiplicación (*)
-mult_poly = pol1 * pol2
-print(f"[*] Multiplicación (pol1 * pol2): {mult_poly}")
+cociente, resto = pol1.dividir(pol2)
+print(f"Division (P1 / P2) -> Cociente: {cociente} | Resto: {resto}")
 
-# 5. Probamos el escalado (multiplicar pol1 por el escalar 3)
-esc_poly = pol1.escalar(3)
-print(f"[Escalar] pol1 multiplicado por 3: {esc_poly}")
-
-# 6. Probamos la evaluación en un punto (ej: x = 2)
-eval_poly = pol1.evaluar(2)
-print(f"[Evaluar] pol1 evaluado en x=2 da como resultado: {eval_poly}")
-
-# 7. Probamos la construcción desde raíces (ej: raíces 2 y 3)
-raices_prueba = [2, 3]
-pol_construido = GFPoly.construccion(campo_prueba, raices_prueba)
-print(f"[Construcción] Polinomio armado desde raíces {raices_prueba}: {pol_construido}")
-
-print("---------------------------------------\n")
+print("-----------------------\n")

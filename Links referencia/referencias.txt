@@ -1,2 +1,5 @@
 
-Multiplicación modular de polinomios en cuerpos de Galois: https://www.youtube.com/watch?v=9hSmQtL49g4
+Multiplicación modular de polinomios en cuerpos de Galois: https://www.youtube.com/watch?v=9hSmQtL49g4  
+Fundamentos matemáticos:Cuerpos de Galois: https://ocw.uc3m.es/pluginfile.php/3745/mod_page/content/18/L1_Galois.pdf
+Inverso de un polinomio en un cuerpo de Galois: https://www.youtube.com/watch?v=B6_KXOe_xdM
+Suma de polinomios : https://ellibrodepython.com/polinomios 
